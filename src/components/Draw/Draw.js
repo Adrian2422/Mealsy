@@ -2,11 +2,12 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import { makeStyles, Button, Container } from '@material-ui/core';
 import Recipe from './Recipe';
+import { ReactComponent as Spinner } from '../../assets/spinner.svg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    width: 'fit-content',
     textAlign: 'center',
-    padding: '64px 0',
     '& div': {
     }
   },
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Draw(props) {
   const [loaded, setLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [meal, setMeal] = useState(null);
   const [ingredients, setIngredients] = useState([]);
 
@@ -31,6 +33,7 @@ export default function Draw(props) {
   const generateMeal = () => {
     const newState = [];
     setLoaded(false);
+    setLoading(true);
     axios
       .get(`https://www.themealdb.com/api/json/v1/1/random.php`)
       .then((response) => {
@@ -50,6 +53,7 @@ export default function Draw(props) {
       .then(() => {
         setIngredients(newState);
         setLoaded(true);
+        setLoading(false);
       });
   };
 
@@ -64,14 +68,14 @@ export default function Draw(props) {
       ytLink={meal.strYoutube}
       tags={meal.strTags ? meal.strTags.split(",").join(", ") : null}
     ></Recipe>
-  ) : null;
+  ) : (loading ? (<Spinner />) : null);
 
   return (
-    <Container maxWidth='xl' className={classes.root}>
+    <Container fixed className={classes.root}>
       <Button
           className={classes.button}
           variant="contained"
-          color="primary"
+          color="secondary"
           size="large"
           onClick={generateMeal}
         >Draw a meal!</Button>

@@ -1,12 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Height } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: 0,
-    backgroundColor: '#333333',
+    backgroundColor: '#121212',
     minHeight: '100vh',
   },
 }));
