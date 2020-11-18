@@ -5,16 +5,13 @@ import Image from '../UI/Image/Image';
 
 const useStyles = theme => ({
   root: {
-    padding: 32,
+    padding: '32px 0',
   },
   title: {
     textAlign: 'center',
     '& a': {
     textDecoration: 'none',
     color: '#000',
-    '&:hover': {
-      
-    },
     },
   },
   tags: {
@@ -44,7 +41,15 @@ const useStyles = theme => ({
     '&:hover': {
       backgroundColor: '#ff2e2e',
     }
-  }
+  },
+  '@media (max-width: 960px)' : {
+    instructions: {
+      fontSize: '0.8em',
+    },
+    title: {
+      fontSize: '2em',
+    },
+  },
 });
 
 const recipe = (props) => {
@@ -85,7 +90,7 @@ const recipe = (props) => {
       <Typography className={classes.title} variant="h2" gutterBottom>
         <a className={null} href={props.mealLink}>{props.name}</a>
       </Typography>
-      <Typography className={classes.tags} variant="h5" gutterBottom>
+      <Typography className={classes.tags} variant="h5" >
         {props.tags}
       </Typography>
       <Container>
@@ -100,7 +105,7 @@ const recipe = (props) => {
         </Container>
         <Container className={classes.info}>
           {ytButton}
-          <Typography variant="body1" gutterBottom>
+          <Typography variant="body1" className={classes.instructions}>
             {props.instructions}
           </Typography>
         </Container>

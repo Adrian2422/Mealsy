@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import Layout from './containers/Layout/Layout';
 import Navbar from './components/UI/Navbar/Navbar'
 import Sidebar from './components/UI/Sidebar/Sidebar';
-import { Container, ThemeProvider } from '@material-ui/core';
+import { Box, Container, ThemeProvider } from '@material-ui/core';
 import Draw from './components/Draw/Draw';
 import Home from './components/Home/Home';
 import ShoppingList from './components/ShoppingList/ShoppingList';
+import Products from './components/Products/Products';
 import { lightTheme, darkTheme } from './components/Theme/Theme';
 
 const useStyles = theme => ({
   root: {
   },
   contentWrapper: {
-    padding: '64px 0 0 0',
-    display: 'flex',
+    padding: '64px 0',
     minHeight: '100vh',
   }
   
@@ -24,7 +24,6 @@ const useStyles = theme => ({
 class App extends Component {
   state = {
     darkTheme: false,
-    themeBtnHovered: false,
     drawerOpened: false,
   };
 
@@ -34,28 +33,27 @@ class App extends Component {
   themeButtonHandler = () => {
     this.setState((prevState) => {return {darkTheme: !prevState.darkTheme}});
   };
-  themeBtnHoverHandler = () => {
-    this.setState((prevState) => {return {themeBtnHovered: !prevState.themeBtnHovered}});
-  };
 
   render(){
     const { classes } = this.props;
+    const appliedTheme = createMuiTheme(this.state.darkTheme ? darkTheme : lightTheme)
 
     return (
-      <ThemeProvider theme={lightTheme}>
-        <div className={classes.root + "App"}>
+      <ThemeProvider theme={appliedTheme}>
+        <Box className={classes.root + " App"} bgcolor="background.default">
         <Layout>
-          <Navbar theme={this.state.darkTheme} themeHover={this.state.themeBtnHovered} hamburgerClicked={this.drawerHandler} themeBtn={this.themeButtonHandler} themeBtnHovered={this.themeBtnHoverHandler}/>
+          <Navbar theme={this.state.darkTheme} hamburgerClicked={this.drawerHandler} themeBtn={this.themeButtonHandler}/>
           <Router>
             <Sidebar backdropClicked={this.drawerHandler} opened={this.state.drawerOpened}/>
             <Container className={classes.contentWrapper}>
                 <Route path="/" exact component={Home}/>
                 <Route path="/draw_a_meal" component={Draw}/>
                 <Route path="/shopping_list" component={ShoppingList}/>
+                <Route path="/products" component={Products}/>
             </Container>
           </Router>
         </Layout>
-      </div>
+      </Box>
       </ThemeProvider>
     ); 
   }

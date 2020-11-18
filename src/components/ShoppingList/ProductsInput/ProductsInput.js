@@ -1,33 +1,52 @@
-import { Container, TextField } from '@material-ui/core';
-import React from 'react';
+import { Button, Container, Divider, TextField } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
+
 
 export default function ProductsInput(props) {
-  const useStyles = theme => ({
+  const useStyles = makeStyles((theme) => ({
     root: {
+      display: 'flex',
+      flexFlow: 'column',
       padding: 0,
     },
-    textField: {
-      color: '#fff',
+    button: {
+      width: 'fit-content',
+      margin: '32px auto'
     },
-    input: {
-      color: 'white'
-  }
-  });
+    '@media (max-width: 960px)' : {
+      root: {
+        display: 'none'
+      },
+    }
+  }));
 
   const classes = useStyles();
 
+  const [query, setQuery] = useState('');
+  const buttonHandler = () => {
+    if(query){
+      setQuery('');
+      return props.addProductBtn(query);
+    }
+  }
+
   return (
-    <Container>
+    <Container className={classes.root}>
       <TextField
+          variant='outlined'
           className={classes.textField}
           id="standard-textarea"
           label="Add products"
-          placeholder="ex.g. '1 cup of rice, 2 apples'"
-          InputProps={{
-            className: classes.input,
-          }}
+          placeholder="e.g. '1 cup of rice, 2 apples'"
+          value={query}
+          onChange={(e) => {setQuery(e.target.value);}}
+          required
+          rows={4}
           multiline
         />
+        <Button className={classes.button} variant="contained" size='large' color="secondary" onClick={() => buttonHandler()}>Add products</Button>
+        <Divider/>
     </Container>
   );
 }
