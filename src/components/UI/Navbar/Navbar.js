@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles, AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
+import { makeStyles, AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness5Icon from '@material-ui/icons/Brightness5';
@@ -24,9 +24,19 @@ const useStyles = makeStyles((theme) => ({
 export default function ButtonAppBar(props) {
   const classes = useStyles();
   const [themeHover, setHover] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const themeBtnHovered = () => {
     setHover(!themeHover);
   }
+
+  const handleClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="fixed">
@@ -40,9 +50,20 @@ export default function ButtonAppBar(props) {
           <IconButton edge="start" className={classes.button} color="inherit" aria-label="change theme" onClick={props.themeBtn} onMouseEnter={themeBtnHovered} onMouseLeave={themeBtnHovered}>
             {themeHover ? <Brightness4Icon /> : (props.theme ? <Brightness7Icon /> : <Brightness5Icon/>)}
           </IconButton>
-          <IconButton edge="start" className={classes.button} color="inherit" aria-label="profile" onClick={props.themeBtn}>
-            <AccountCircleIcon /> 
+          <IconButton edge="start" className={classes.button} color="inherit" aria-label="profile" onClick={handleClick}>
+            <AccountCircleIcon />
           </IconButton>
+          <Menu
+            id="user-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
     </div>
