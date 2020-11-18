@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles, AppBar, Toolbar, Typography, Button, IconButton } from '@material-ui/core';
+import { makeStyles, AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness5Icon from '@material-ui/icons/Brightness5';
