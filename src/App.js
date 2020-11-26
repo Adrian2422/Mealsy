@@ -15,6 +15,7 @@ import Login from './components/Login/Login';
 import Logout from './components/Login/Logout';
 import Register from './components/Register/Register';
 import Snackbar from './components/UI/Snackbar/Snackbar';
+import PrivateRoute from './components/Routes/PrivateRoute';
 import { lightTheme, darkTheme } from './components/Theme/Theme';
 
 const useStyles = theme => ({
@@ -102,7 +103,7 @@ class App extends Component {
     const { classes } = this.props;
     const appliedTheme = createMuiTheme(this.state.darkTheme ? darkTheme : lightTheme)
     const {loginState, loginResult, snackbar} = this.state;
-    
+
     return (
       <ThemeProvider theme={appliedTheme}>
         <Box className={classes.root + " App"} bgcolor="background.default">
@@ -113,8 +114,8 @@ class App extends Component {
             <Container className={classes.contentWrapper}>
               <Route path="/" exact component={Home}/>
               <Route path="/draw_a_meal" component={Draw}/>
-              <Route path="/shopping_list" component={ShoppingList}/>
-              <Route path="/products" component={Products}/>
+              <PrivateRoute path="/shopping_list" component={ShoppingList} isLogged={this.state.userIsLogged}/>
+              <PrivateRoute path="/products" component={Products} isLogged={this.state.userIsLogged}/>
               <Route path="/login" render={(props) => <Login {...props} login={this.loginHandler} isUserLogged={this.state.userIsLogged}/>}/>
               <Route path="/logout" render={(props) => <Logout {...props} logout={this.logoutHandler}/>}/>
               <Route path="/register" render={(props) => <Register {...props} register={this.registerHandler}/>}/>
