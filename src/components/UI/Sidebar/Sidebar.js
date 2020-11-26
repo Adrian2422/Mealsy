@@ -1,10 +1,13 @@
 import React from 'react';
-import { makeStyles, Drawer, List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
+import { makeStyles, Drawer, List, ListItem, ListItemText, ListItemIcon, Divider } from '@material-ui/core';
 import { Link } from "react-router-dom";
+import Cookies from 'universal-cookie';
 import HomeIcon from '@material-ui/icons/Home';
 import CasinoIcon from '@material-ui/icons/Casino';
 import ListIcon from '@material-ui/icons/List';
 import SearchIcon from '@material-ui/icons/Search';
+import ForwardIcon from '@material-ui/icons/Forward';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,10 +34,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Sidebar(props) {
+  const cookies = new Cookies();
   const classes = useStyles();
   const links = ['Home', 'Draw a meal', 'Shopping list', 'Products'];
   const urls = ['/', '/draw_a_meal', '/shopping_list', '/products'];
   const icons = [<HomeIcon />, <CasinoIcon />, <ListIcon/>, <SearchIcon />];
+  const login = !cookies.get('token') ? (
+    <Link to={'/login'} className={classes.links}>
+      <ListItem button  className={classes.listItem}>
+          <ListItemIcon>
+            <ForwardIcon />
+          </ListItemIcon>
+          <ListItemText primary='Log in'/>
+        </ListItem>
+    </Link>
+  ) : (
+    <Link to={'/logout'} className={classes.links}>
+      <ListItem button  className={classes.listItem}>
+          <ListItemIcon>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <ListItemText primary='Log out'/>
+        </ListItem>
+    </Link>
+  )
   return (
     <div
       role="presentation"
@@ -53,6 +76,8 @@ export default function Sidebar(props) {
                 </ListItem>
               </Link>
             ))}
+            <Divider />
+            {login}
           </List>
       </Drawer>
     </div>
