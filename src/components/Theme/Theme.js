@@ -32,13 +32,12 @@ export const lightTheme = createMuiTheme({
 export const darkTheme = createMuiTheme({
   palette: {
     type: 'dark',
-    // primary: {
-    //   //blueish colors
-    //   light: '#6F6F7E',
-    //   main: '#35364A',
-    //   dark: '#181930',
-    //   contrastText: '#fff',
-    // },
+    primary: {
+      light: '#ff4081',
+      main: '#f50057',
+      dark: '#c51162',
+      contrastText: '#fff',
+    },
     // secondary: {
     //   // orangeish colors
     //   light: '#FF8460',

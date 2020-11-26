@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles, AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
+import { makeStyles, AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Tooltip } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness5Icon from '@material-ui/icons/Brightness5';
@@ -37,33 +37,45 @@ export default function ButtonAppBar(props) {
     setAnchorEl(null);
   };
 
+  const accountIcon = props.checkLogin ? (
+  <React.Fragment>
+    <Tooltip title="Account options" hidden={!props.checkLogin}>
+      <IconButton edge="start" className={classes.button} color="inherit" aria-label="profile" onClick={handleClick}>
+        <AccountCircleIcon />
+      </IconButton>
+    </Tooltip>
+    <Menu
+      id="user-menu"
+      anchorEl={anchorEl}
+      keepMounted
+      open={Boolean(anchorEl)}
+      onClose={handleClose}
+    >
+      <MenuItem onClick={handleClose}>Profile</MenuItem>
+      <MenuItem onClick={handleClose}>My account</MenuItem>
+      <MenuItem onClick={()=>{handleClose(); props.logout();}}>Logout</MenuItem>
+    </Menu>
+  </React.Fragment>
+  ) : null;
+
   return (
     <div className={classes.root}>
       <AppBar position="fixed">
         <Toolbar>
-          <IconButton edge="start" className={classes.button} color="inherit" aria-label="menu" onClick={props.hamburgerClicked}>
-            <MenuIcon />
-          </IconButton>
+          <Tooltip title="Show sidebar">
+            <IconButton edge="start" className={classes.button} color="inherit" aria-label="menu" onClick={props.hamburgerClicked}>
+              <MenuIcon />
+            </IconButton>
+          </Tooltip>
           <Typography variant="h6" className={classes.title}>
             Mealsy
           </Typography>
-          <IconButton edge="start" className={classes.button} color="inherit" aria-label="change theme" onClick={props.themeBtn} onMouseEnter={themeBtnHovered} onMouseLeave={themeBtnHovered}>
-            {themeHover ? <Brightness4Icon /> : (props.theme ? <Brightness7Icon /> : <Brightness5Icon/>)}
-          </IconButton>
-          <IconButton edge="start" className={classes.button} color="inherit" aria-label="profile" onClick={handleClick}>
-            <AccountCircleIcon />
-          </IconButton>
-          <Menu
-            id="user-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-          </Menu>
+          <Tooltip title="Change theme">
+            <IconButton edge="start" className={classes.button} color="inherit" aria-label="change theme" onClick={props.themeBtn} onMouseEnter={themeBtnHovered} onMouseLeave={themeBtnHovered}>
+              {themeHover ? <Brightness4Icon /> : (props.theme ? <Brightness7Icon /> : <Brightness5Icon/>)}
+            </IconButton>
+          </Tooltip>
+          {accountIcon}
         </Toolbar>
       </AppBar>
     </div>

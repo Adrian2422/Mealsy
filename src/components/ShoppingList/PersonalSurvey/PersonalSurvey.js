@@ -17,7 +17,7 @@ export default function PersonalSurvey(props) {
       width: '100%',
     },
     input:{
-      margin: '5px 0'
+      margin: '8px 0'
     },
     button: {
       margin: '32px auto'
